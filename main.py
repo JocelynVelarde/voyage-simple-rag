@@ -1,9 +1,14 @@
 import voyageai
 import numpy as np
+from google import genai
+import os
+
+VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Initialize clients (requires VOYAGE_API_KEY and OPENAI_API_KEY environment variables)
-vo = voyageai.Client()
-openai_client = OpenAI()
+vo = voyageai.Client(api_key=VOYAGE_API_KEY)
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 
 # Sample documents
 documents = [
@@ -49,12 +54,9 @@ context = reranked.results[0].document
 
 # Generate answer using retrieved context
 prompt = f"Based on this information: '{context}', answer: {query}"
-response = openai_client.chat.completions.create(
-    model="gpt-4o",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": prompt}
-    ]
+response = gemini_client.models.generate_content(
+    model="gemini-3-flash-preview",
+    contents=prompt
 )
 
 print(f"\nQuestion: {query}")
