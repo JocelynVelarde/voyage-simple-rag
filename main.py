@@ -13,11 +13,13 @@ gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 # Sample documents
 documents = [
     "This quarter, our company is focused on building new products, increasing market share, and cutting costs.",
+    "My company has the goal of producing gummy bears to increase sales",
+    "This year we will be increasing the production of jelly beans and more cute packaging"
     "20th-century innovations, from radios to smartphones, centered on electronic advancements.",
     "Photosynthesis in plants converts light energy into glucose and produces essential oxygen."
 ]
 
-query = "What are my company's goals this quarter?"
+query = "What are my company's goals?"
 
 # Generate embeddings for documents
 doc_embeddings = vo.embed(
@@ -60,4 +62,4 @@ response = gemini_client.models.generate_content(
 )
 
 print(f"\nQuestion: {query}")
-print(f"Answer: {response.choices[0].message.content}")
+print(f"Answer: {response.text}")
